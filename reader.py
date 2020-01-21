@@ -1,4 +1,7 @@
-from re import compile, findall
+from re import compile,  findall, match
+
+tokenize_regex = compile(r"""[\s,]*(~@|[()'`~^@]|"(?:[\\].|[^\\"])*"?|;.*|[^\s()'"`@,;]+)""")
+integer_regex = compile(r"-?[0-9]+$")
 
 class Reader():
     def __init__(self, str):
@@ -14,12 +17,10 @@ class Reader():
     def peek(self):
         if len(self.tokens) <= self.pos:
             return None
-
         return self.tokens[self.pos]
 
 def tokenize(str):
-    regex = compile(r"""[\s,]*(~@|[()'`~^@]|"(?:[\\].|[^\\"])*"?|;.*|[^\s()'"`@,;]+)""")
-    tokens = findall(regex, str)
+    tokens = findall(tokenize_regex, str)
     return [t for t in tokens if t[0] != ';']
     
 def readform(reader):
@@ -37,10 +38,21 @@ def readlist(reader):
         assert(token != None) #todo
         ast.append(readform(reader))
         token = reader.peek()
+    reader.next()
     return ast
 
 def readatom(reader):
     token = reader.next()
+    if match(integer_regex, token):
+        return int(token)
+    elif token == "nil":
+        return None
+    elif token == "true":
+        return True
+    elif token == "false":
+        return False
+    else:
+        return token
     return token
 
 def read(str):
