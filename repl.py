@@ -1,26 +1,30 @@
 from sys import stdin, stdout, stderr
+import sys
+import re
+import reader, printer
 
 prompt = "lisp-in-python>"
+def displayprompt():
+    stdout.write(f"{prompt} ")
+    stdout.flush()
 
 def read():
     line = stdin.readline()
-    return line
+    ast = reader.read(line)
+    return ast
 
-def eval(str):
-    return str
+def eval(ast):
+    return str(ast)
 
 def print(str):
     stdout.write(str)
     if len(str) > 0:
         stdout.write("\n")
-    stdout.write(f"{prompt} ")
 
 def loop():
-    stdout.write(f"{prompt} ")
-    stdout.flush()
+    displayprompt()
     while True:
         print(eval(read()))
-        stdout.flush()
+        displayprompt()
 
 loop()
-
