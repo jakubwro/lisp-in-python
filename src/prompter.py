@@ -4,8 +4,17 @@ prompt = "lisp-in-python> "
 def displayprompt(morenewlines = False):
     if morenewlines:
         stdout.write("\n")
+    stdout.write("\033[92m\033[1m")
     stdout.write(prompt)
+    stdout.write("\033[0m")
     stdout.flush()
+
+def displayerror(message):
+    stdout.write("\033[91m")
+    stdout.write(f"ERROR: {message}\n")
+    stdout.write("\033[0m")
+    stdout.flush()
+    displayprompt()
 
 def readexpression():
     expression = ""
@@ -19,3 +28,9 @@ def readexpression():
         if not open_parens:
             return expression
         stdout.write(" " * indent)
+
+def welcome():
+    stdout.write("\nWelcome to the REPL!\nPress CTRL+C to quit.\n\n")
+
+def bye():
+    stdout.write("\n\nGood bye!\n\n")

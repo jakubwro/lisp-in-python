@@ -1,7 +1,7 @@
 from parser import parse
-from prompter import displayprompt, readexpression
+from prompter import displayprompt, readexpression, displayerror, welcome, bye
 from presenter import present
-from lisptypes import Symbol
+from lisptypes import Symbol, Keyword, LispException
 
 def read():
     line = readexpression()
@@ -22,6 +22,8 @@ def eval(ast, env):
         return []
     evaluated = eval_ast(ast, env)
     func, args = evaluated[0], evaluated[1:]
+    if not callable(func):
+        raise(LispException(f"{func} is not callable. Are you missing quotation?"))
     return func(*args)
 
 def print(str):
@@ -35,8 +37,16 @@ environment = {
 }
 
 def loop():
+    welcome()
     displayprompt()
     while True:
-        print(eval(read(), environment))
-
+        try:
+            print(eval(read(), environment))
+        except LispException as e:
+            displayerror(str(e))
+        except KeyboardInterrupt:
+            bye()
+            return
+        except BaseException as e:
+            displayerror(str(type(e)))
 loop()
