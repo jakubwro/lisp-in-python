@@ -1,0 +1,2 @@
+class Symbol(str):
+    pass

@@ -1,5 +1,6 @@
 from re import compile, match
 from lexer import Lexer
+from lisptypes import Symbol
 
 integer_regex = compile(r"-?[0-9]+$")
 
@@ -33,9 +34,8 @@ def parseatom(lexer):
         return True
     elif token == "false":
         return False
-    else:
-        return token
-    return token
+
+    return Symbol(token)
 
 def parse(str):
     lexer = Lexer(str)

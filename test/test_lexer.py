@@ -21,5 +21,20 @@ class TestLexer(unittest.TestCase):
         tokens = list(alltokens(lexer))
         self.assertEqual(tokens, ['(', '+', '3', '4'])
 
+    def test_nil_token(self):
+        lexer = Lexer("(nil)")
+        tokens = list(alltokens(lexer))
+        self.assertEqual(tokens, ['(', 'nil', ')'])
+
+    def test_booleans(self):
+        lexer = Lexer("(true false)")
+        tokens = list(alltokens(lexer))
+        self.assertEqual(tokens, ['(', 'true', 'false', ')'])
+
+    def test_numbers(self):
+        lexer = Lexer("(1 2 3.14 -4 -5.0)")
+        tokens = list(alltokens(lexer))
+        self.assertEqual(tokens, ['(', '1', '2', '3.14', '-4', '-5.0', ')'])
+
 if __name__ == '__main__':
     unittest.main()
