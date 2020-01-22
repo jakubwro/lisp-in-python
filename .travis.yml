@@ -1,7 +1,7 @@
 language: python
 before_script:
-  - pip install coverage==4.5.4 python-coveralls
+  - pip install pytest pytest-cov coverage==4.5.4 python-coveralls
 script:
-  - pytest
+  - pytest --cov
 after_success:
   - coveralls
