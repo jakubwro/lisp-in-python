@@ -1,6 +1,6 @@
 language: python
 before_script:
-  - pip install python-coveralls
+  - pip install pip install coverage==3.7.1 python-coveralls
 script:
   - pytest
 after_success:
