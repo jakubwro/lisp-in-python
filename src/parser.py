@@ -1,6 +1,6 @@
 from re import compile, match
 from lexer import Lexer
-from lisptypes import Symbol, Keyword
+from lisptypes import Symbol
 
 integer_regex = compile(r"-?[0-9]+$")
 keywords = ['car', 'cdr', 'def' 'set!']
@@ -35,8 +35,8 @@ def parseatom(lexer):
         return True
     elif token == "false":
         return False
-    elif token in keywords:
-        return Keyword(token)
+    # elif token in keywords:
+    #     return Keyword(token)
 
     return Symbol(token)
 

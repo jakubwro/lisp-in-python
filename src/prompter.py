@@ -18,11 +18,11 @@ def displayerror(message):
 
 def readexpression():
     expression = ""
-    open_parens = 0
+    open_parens = 0 #TODO: match parens with stack to aviod )(
     indent = len(prompt) #TODO: dynamic indent update
     while True:
         stdout.flush()
-        line = stdin.readline()
+        line = input()
         expression = f"{expression} {line}"
         open_parens += (line.count("(") - line.count(")")) # TODO: handle escaped parens
         if not open_parens:
