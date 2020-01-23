@@ -5,7 +5,7 @@
 Just a simple Lisp in Python
 
 ## Resources
-I was inspired by those projects:
+I was inspired by these projects:
 -   [Make-A-Lisp](https://github.com/kanaka/mal/blob/master/process/guide.md)
 -   [femtolisp](https://github.com/JeffBezanson/femtolisp)
 -   [ChezScheme](https://github.com/cisco/ChezScheme)
