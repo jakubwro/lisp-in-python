@@ -16,6 +16,11 @@ def displayerror(message):
     stdout.flush()
     displayprompt()
 
+def displayresult(result):
+    stdout.write(result)
+    stdout.write("\n")
+    stdout.flush()
+
 def readexpression():
     expression = ""
     open_parens = 0 #TODO: match parens with stack to aviod )(

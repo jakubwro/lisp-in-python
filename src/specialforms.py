@@ -5,7 +5,12 @@ def car(ast, env, evaluate):
     return evaluate(ast[1], env)[0]
 
 def cdr(ast, env, evaluate):
-    return ast[1][1:]
+    return evaluate(ast[1], env)[1:]
+
+def nth(ast, env, evaluate):
+    if not isinstance(ast[1], int):
+        raise LispException("'nth' expects' numeric index")
+    return evaluate(ast[2], env)[ast[1]-1]
     
 def cons(ast, env, evaluate):
     return [ast[1], *ast[2]]
@@ -32,6 +37,7 @@ def sf_let(ast, env, evaluate):
 specials = {
     "car": car,
     "cdr": cdr,
+    "nth": nth,
     "cons": cons,
     "quote": quote,
     "def!": sf_def,
@@ -39,6 +45,8 @@ specials = {
 }
 
 def isspecial(form):
+    if isinstance(form, list):
+        return False
     return form in specials
 
 def specialform(form, ast, env, evaluate):

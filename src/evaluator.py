@@ -1,6 +1,22 @@
 from specialforms import isspecial, specialform
 from lisptypes import Symbol, LispException
 
+def expandquotes(ast):
+    expanded = []
+    quotemode = False
+    for node in ast:
+        if node == "'":
+            quotemode = True
+            continue
+        if not quotemode:
+            expanded.append(node)
+        else:
+            expanded.append(['quote', node])
+        quotemode = False
+    if quotemode == True:
+        raise LispException("Unexpected closed paren!")
+    return expanded
+
 def evaluateast(ast, env):
     if isinstance(ast, Symbol):
         return env.get(ast)
@@ -12,7 +28,9 @@ def evaluate(ast, env):
     if not isinstance(ast, list):
         return evaluateast(ast, env)
     if not ast: # empty list
-        return []
+        return LispException("Invalid syntax: ()")
+
+    ast = expandquotes(ast)
 
     form = ast[0]
     if isspecial(form):

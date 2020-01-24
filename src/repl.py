@@ -1,6 +1,6 @@
 from lexer import Lexer
 from parser import parse
-from prompter import displayprompt, readexpression, displayerror, welcome, bye
+from prompter import displayprompt, readexpression, displayerror, welcome, bye, displayresult
 from presenter import present
 from lisptypes import LispException
 from environment import defaultenv
@@ -14,7 +14,8 @@ def eval(ast, env):
     return evaluate(ast, env)
 
 def print(str):
-    present(str)
+    displayresult(present(str))
+    displayprompt(morenewlines = False)
 
 def loop():
     welcome()
