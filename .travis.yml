@@ -2,6 +2,6 @@ language: python
 before_script:
   - pip install pytest pytest-cov coverage==4.5.4 python-coveralls
 script:
-  - pytest --cov
+  - pytest --cov=src
 after_success:
   - coveralls
