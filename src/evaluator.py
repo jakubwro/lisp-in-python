@@ -28,7 +28,7 @@ def evaluate(ast, env):
     if not isinstance(ast, list):
         return evaluateast(ast, env)
     if not ast: # empty list
-        return LispException("Invalid syntax: ()")
+        return []
 
     ast = expandquotes(ast)
 

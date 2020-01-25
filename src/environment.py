@@ -7,6 +7,7 @@ class Environment():
 
     def set(self, key, value):
         self.data[key] = value
+        return self.data[key]
 
     def has(self, key):
         return key in self.data or (self.outer and self.outer.has(key))
@@ -16,7 +17,7 @@ class Environment():
             return self.data[key]
         if self.outer and self.outer.has(key):
             return self.outer.get(key)
-        raise LispException(f"Symbol '{key}'' is not defined!")
+        raise LispException(f"Symbol '{key}' is not defined!")
 
 def defaultenv():
     env = Environment(None)
