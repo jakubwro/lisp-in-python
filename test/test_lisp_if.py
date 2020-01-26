@@ -6,7 +6,7 @@ import os
 sys.path.append(os.path.abspath('test'))
 from runner import execute, Interpreter
 
-def test_specialform_if():
+def test__if():
     run = Interpreter().run
     assert run("(if true 7 8)") == "7"
     assert run("(if false 7 8)") == "8"
@@ -19,7 +19,7 @@ def test_specialform_if():
     assert run("(if (list 1 2 3) 7 8)") == "7"
     assert run("(= (list) nil)") == "false"
 
-def test_specialform_if_oneway():
+def test__if_oneway():
     run = Interpreter().run
     assert run("(if false (+ 1 7))") == "nil"
     assert run("(if nil 8)") == "nil"

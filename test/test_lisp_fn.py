@@ -6,7 +6,7 @@ import os
 sys.path.append(os.path.abspath('test'))
 from runner import execute, Interpreter
 
-def test_specialform_fn():
+def test__fn():
     run = Interpreter().run
     assert run("(+ 1 2)") == "3"
     assert run("( (fn* (a b) (+ b a)) 3 4)") == "7"

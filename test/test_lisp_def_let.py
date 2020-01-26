@@ -9,7 +9,7 @@ from runner import execute, Interpreter
 sys.path.append(os.path.abspath('src'))
 from src.lisptypes import LispException
 
-def test_specialform_def():
+def test__def():
     run = Interpreter().run
     assert run("(def! x 3)")        == "3"
     assert run("x")                 == "3"
@@ -19,7 +19,7 @@ def test_specialform_def():
     assert run("y")                 == "8"
     assert run("(+ x y)")           == "12"
 
-def test_specialform_def_lookup_failure():
+def test__def_lookup_failure():
     # with pytest.raises(BaseException) as excinfo:
     #     run = Interpreter().run
     #     run("(asdf 1 2 3 4)")
@@ -27,7 +27,7 @@ def test_specialform_def_lookup_failure():
     run = Interpreter().run
     assert run("(asdf 1 2 3 4)") == "Symbol 'asdf' is not defined!"
 
-def test_specialform_def_error_abort():
+def test__def_error_abort():
     run = Interpreter().run
     assert run("(asdf 1 2 3 4)")  == "Symbol 'asdf' is not defined!"
     assert run("(def! w 44)")     == "44"
@@ -36,7 +36,7 @@ def test_specialform_def_error_abort():
 
 # ^(.*)\n.*;=>(.*)$
 # assert run("$1") == "$2"
-def test_specialform_let():
+def test__let():
     run = Interpreter().run
     #basic tests
     assert run("(def! x 4)")                            == "4"

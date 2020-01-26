@@ -6,7 +6,7 @@ import os
 sys.path.append(os.path.abspath('test'))
 from runner import execute, Interpreter
 
-def test_specialform_do():
+def test__do():
     run = Interpreter().run
     assert run("(do (def! a 6) 7 (+ a 8))") == "14"
     assert run("a") == "6"
