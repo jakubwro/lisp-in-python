@@ -33,9 +33,6 @@ class Fn():
     def newenv(self, a):
         return Environment(self.env, self.binds, a)
 
-    def call(self, a):
-        return self.evaluate(self.body, self.newenv(a))
-
 def defaultenv():
     env = Environment(None)
     env.set('+', lambda a,b: a+b)

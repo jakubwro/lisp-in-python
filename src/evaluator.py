@@ -1,27 +1,25 @@
 from lisptypes import Symbol, LispException, Fn,  Environment
 
-def expandquotes(ast):
-    expanded = []
-    quotemode = False
-    for node in ast:
-        if node == "'":
-            quotemode = True
-            continue
-        if not quotemode:
-            expanded.append(node)
-        else:
-            expanded.append(['quote', node])
-        quotemode = False
-    if quotemode == True:
-        raise LispException("Unexpected closed paren!")
-    return expanded
+# def expandquotes(ast):
+#     expanded = []
+#     quotemode = False
+#     for node in ast:
+#         if node == "'":
+#             quotemode = True
+#             continue
+#         if not quotemode:
+#             expanded.append(node)
+#         else:
+#             expanded.append(['quote', node])
+#         quotemode = False
+#     if quotemode == True:
+#         raise LispException("Unexpected closed paren!")
+#     return expanded
 
 def evaluateast(ast, env):
     if isinstance(ast, Symbol):
         return env.get(ast)
     if isinstance(ast, list):
-        if callable(ast[0]):
-            return ast[0](ast[1:])
         return list(map(lambda x: evaluate(x, env), ast))
     return ast
 
@@ -31,7 +29,7 @@ def evaluate(ast, env):
             return evaluateast(ast, env)
         if not ast: # empty list
             return []
-        ast = expandquotes(ast)
+        # ast = expandquotes(ast)
         
         form = ast[0]
         # if form == "quote":
