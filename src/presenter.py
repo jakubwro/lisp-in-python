@@ -6,13 +6,15 @@ def presentlist(content, buffer):
     for item in content:
         presentresult(item, buffer)
         if i < len(content):
-            buffer.append(", ")
+            buffer.append(" ")
         i = i + 1
     buffer.append(")")
 
 def presentresult(content, buffer):
     if (content == None):
         buffer.append("nil")
+    elif (isinstance(content, bool)):
+        buffer.append(str(content).lower())
     elif (isinstance(content, list)):
         presentlist(content, buffer)
     else:

@@ -1,0 +1,17 @@
+import sys
+import os
+sys.path.append(os.path.abspath('test'))
+from runner import execute, Interpreter
+
+def test_list_functions():
+    run = Interpreter().run
+    assert run("(list)") == "()"
+    assert run("(list? (list))") == "true"
+    assert run("(empty? (list))") == "true"
+    assert run("(empty? (list 1))") == "false"
+    assert run("(list 1 2 3)") == "(1 2 3)"
+    assert run("(count (list 1 2 3))") == "3"
+    assert run("(count (list))") == "0"
+    assert run("(count nil)") == "0"
+    assert run("(if (> (count (list 1 2 3)) 3) 89 78)") == "78"
+    assert run("(if (>= (count (list 1 2 3)) 3) 89 78)") == "89"
