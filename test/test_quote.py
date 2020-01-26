@@ -61,7 +61,6 @@ def test_list_functions():
     assert run('(quasiquote (1 c 3))') == '(1 c 3)'
     assert run('(quasiquote (1 (splice-unquote c) 3))') == '(1 1 "b" "d" 3)'
 
-
     # Testing symbol equality
     assert run('(= (quote abc) (quote abc))') == 'true'
     assert run('(= (quote abc) (quote abcd))') == 'false'

@@ -24,11 +24,12 @@ class Environment():
         raise LispException(f"Symbol '{key}' is not defined!")
 
 class Fn():
-    def __init__(self, body, binds, env, evaluate):
+    def __init__(self, body, binds, env, evaluate, ismacro = False):
         self.body = body
         self.binds = binds
         self.env = env
         self.evaluate = evaluate
+        self.ismacro = ismacro
     
     def newenv(self, a):
         return Environment(self.env, self.binds, a)

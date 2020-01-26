@@ -1,21 +1,5 @@
 from lisptypes import Symbol, LispException, Fn,  Environment
 
-# def expandquotes(ast):
-#     expanded = []
-#     quotemode = False
-#     for node in ast:
-#         if node == "'":
-#             quotemode = True
-#             continue
-#         if not quotemode:
-#             expanded.append(node)
-#         else:
-#             expanded.append(['quote', node])
-#         quotemode = False
-#     if quotemode == True:
-#         raise LispException("Unexpected closed paren!")
-#     return expanded
-
 def evaluateast(ast, env):
     if isinstance(ast, Symbol):
         return env.get(ast)
@@ -25,11 +9,12 @@ def evaluateast(ast, env):
 
 def evaluate(ast, env):
     while True:
+        ast = macroexpand(ast, env)
         if not isinstance(ast, list):
             return evaluateast(ast, env)
         if not ast: # empty list
             return []
-        
+
         form = ast[0]
         if form == 'def!':
             if len(ast) != 3:
@@ -80,8 +65,17 @@ def evaluate(ast, env):
             ast = quasiquote(ast[1])
             continue
 
+        if form == 'defmacro!':
+            func = evaluate(ast[2], env)
+            func.ismacro = True
+            return env.set(ast[1], func)
+
+        if form == 'macroexpand':
+            return macroexpand(ast[1], env)
+        
         evaluated = evaluateast(ast, env)
         func, args = evaluated[0], evaluated[1:]
+        
         if isinstance(func, Fn):
             ast = func.body
             env = func.newenv(args)
@@ -102,6 +96,41 @@ def quasiquote(ast):
         return [Symbol('concat'), ast[0][1], quasiquote(ast[1:])]
     else:
         return [Symbol('cons'), quasiquote(ast[0]), quasiquote(ast[1:])]
+
+def ismacrocall(ast, env):
+    if not ispair(ast):
+        return False
+    sym = ast[0]
+    if not isinstance(sym, Symbol):
+        return False
+    if not env.has(sym):
+        return False
+    f = env.get(sym)
+    if not isinstance(f, Fn):
+        return False
+    return f.ismacro
+
+def macroexpand(ast, env):
+    while ismacrocall(ast, env):
+        f = env.get(ast[0])
+        ast = evaluate([f, *ast[1:]], env)
+    return ast
+
+# def expandquotes(ast):
+#     expanded = []
+#     quotemode = False
+#     for node in ast:
+#         if node == "'":
+#             quotemode = True
+#             continue
+#         if not quotemode:
+#             expanded.append(node)
+#         else:
+#             expanded.append(['quote', node])
+#         quotemode = False
+#     if quotemode == True:
+#         raise LispException("Unexpected closed paren!")
+#     return expanded
 
 def defaultenv():
     env = Environment(None)
@@ -125,7 +154,7 @@ def defaultenv():
     env.set('<', lambda a,b: a < b)
     env.set('>=', lambda a,b: a >= b)
     env.set('<=', lambda a,b: a <= b)
-    
+
     env.set('not', lambda a: False if a is 0 else not a)
     env.set('prn', lambda v: print(v))
     return env
