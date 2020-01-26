@@ -8,7 +8,7 @@ Just a simple Lisp with macros, quotations and tail calls.
 
 To run REPL use `run-repl.sh` script
 
-```bash
+```
 $./run-repl.sh
 
 Welcome to the REPL!
