@@ -34,13 +34,14 @@ def evaluate(ast, env):
         ast = expandquotes(ast)
         
         form = ast[0]
+        # if form == "quote":
+        #     if len(ast) != 2:
+        #         raise(LispException("'quote' special form requires 1 argument"))
+        #     return ast[1]
         if form == 'def!':
             if len(ast) != 3:
                 raise(LispException("'def!' requires 2 arguments"))
             return env.set(ast[1], evaluate(ast[2], env))
-            # if len(ast) != 2:
-            #     raise(LispException("'quote' special form requires 1 argument"))
-            # return ast[1]
 
         if form == "let*":
             if len(ast) != 3:

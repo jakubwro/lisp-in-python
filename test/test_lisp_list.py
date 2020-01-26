@@ -17,11 +17,11 @@ def test_list_functions():
     assert run("(if (> (count (list 1 2 3)) 3) 89 78)") == "78"
     assert run("(if (>= (count (list 1 2 3)) 3) 89 78)") == "89"
 
-# @pytest.mark.parametrize("expression,expected", [
-#     ("(car '(1 2 3 4))", "1"),
-#     ("(cdr '(1 2 3 4))", "(2 3 4)"),
-#     ("(nth 3 '(1 2 3 4))", "3"),
-#     ("(car (cdr '(1 2 3 4)))", "2")
-# ])
-# def test_basic_car_cdr_cons(expression, expected):
-#     assert expected == execute(expression)
+@pytest.mark.parametrize("expression,expected", [
+    ("(car (list 1 2 3 4))", "1"),
+    ("(cdr (list 1 2 3 4))", "(2 3 4)"),
+    ("(nth 3 (list 1 2 3 4))", "3"),
+    ("(car (cdr (list 1 (+ 1 1) 3 4)))", "2")
+])
+def test_basic_car_cdr_cons(expression, expected):
+    assert expected == execute(expression)

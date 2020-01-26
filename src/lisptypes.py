@@ -47,6 +47,10 @@ def defaultenv():
     env.set('list?', lambda l: isinstance(l, list))
     env.set('empty?', lambda l: l is None or len(l) == 0)
     env.set('count', lambda l: 0 if l == None else len(l))
+    env.set('car', lambda l: l[0])
+    env.set('cdr', lambda l: l[1:])
+    env.set('cons', lambda item, l: [item, *l])
+    env.set('nth', lambda pos, l: l[pos-1])
 
     env.set('=', lambda a,b: a == b)
     env.set('>', lambda a,b: a > b)
@@ -57,5 +61,7 @@ def defaultenv():
     env.set('not', lambda a: False if a is 0 else not a)
 
     env.set('prn', lambda v: print(v))
+
+    
 
     return env

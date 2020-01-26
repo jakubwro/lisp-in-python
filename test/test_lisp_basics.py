@@ -8,6 +8,8 @@ from runner import execute, Interpreter
 
 def test_empty_list():
     assert "()" == execute("()")
+    assert "nil" == execute("")
+    assert "nil" == execute("nil")
 
 @pytest.mark.parametrize("expression,expected", [
     ("(+ (+ 1 1) (+ 1 (+ 1 1)))", "5"),
