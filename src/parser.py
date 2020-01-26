@@ -18,7 +18,7 @@ def parselist(lexer):
     assert(token == "(")
     token = lexer.peek()
     while token != ")":
-        assert(token != None) #todo
+        assert(token != None)
         ast.append(parseform(lexer))
         token = lexer.peek()
     lexer.next()
@@ -36,8 +36,6 @@ def parseatom(lexer):
         return True
     elif token == "false":
         return False
-    # elif token in keywords:
-    #     return Keyword(token)
 
     return Symbol(token)
 

@@ -29,13 +29,8 @@ def evaluate(ast, env):
             return evaluateast(ast, env)
         if not ast: # empty list
             return []
-        # ast = expandquotes(ast)
         
         form = ast[0]
-        # if form == "quote":
-        #     if len(ast) != 2:
-        #         raise(LispException("'quote' special form requires 1 argument"))
-        #     return ast[1]
         if form == 'def!':
             if len(ast) != 3:
                 raise(LispException("'def!' requires 2 arguments"))

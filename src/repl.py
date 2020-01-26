@@ -16,6 +16,6 @@ while True:
     except (KeyboardInterrupt, EOFError):
         bye()
         exit(0)
-    # except BaseException as e:
-    #     displayerror(str(type(e)))
+    except BaseException as e:
+        displayerror(str(e))
 
