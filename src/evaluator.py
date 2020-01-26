@@ -73,6 +73,13 @@ def evaluate(ast, env):
             ast = ast[-1]
             continue
 
+        if form == "quote":
+            return ast[1]
+
+        if form == "quasiquote":
+            ast = quasiquote(ast[1])
+            continue
+
         evaluated = evaluateast(ast, env)
         func, args = evaluated[0], evaluated[1:]
         if isinstance(func, Fn):
@@ -82,3 +89,16 @@ def evaluate(ast, env):
         if not callable(func):
             raise(LispException(f"{func} is not callable. Are you missing a quotation?"))
         return func(*args)
+
+def ispair(l):
+    return isinstance(l, list) and len(l) > 0
+
+def quasiquote(ast):
+    if not ispair(ast):
+        return [Symbol('quote'), ast]
+    elif ast[0] == 'unquote':
+        return ast[1]
+    elif ispair(ast[0]) and ast[0][0] == 'splice-unquote':
+        return [Symbol('concat'), ast[0][1], quasiquote(ast[1:])]
+    else:
+        return [Symbol('cons'), quasiquote(ast[0]), quasiquote(ast[1:])]

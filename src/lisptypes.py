@@ -48,6 +48,7 @@ def defaultenv():
     env.set('cdr', lambda l: l[1:])
     env.set('cons', lambda item, l: [item, *l])
     env.set('nth', lambda pos, l: l[pos-1])
+    env.set('concat', lambda *a: [i for sl in a for i in sl])
 
     env.set('=', lambda a,b: a == b)
     env.set('>', lambda a,b: a > b)
