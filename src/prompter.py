@@ -1,18 +1,12 @@
 from sys import stdin, stdout, stderr
 
 prompt = "lisp-in-python> "
-def displayprompt(morenewlines = False):
-    if morenewlines:
-        stdout.write("\n")
-    stdout.write("\033[92m\033[1m")
-    stdout.write(prompt)
-    stdout.write("\033[0m")
+def displayprompt():
+    stdout.write(f"\033[92m\033[1m{prompt}\033[0m")
     stdout.flush()
 
 def displayerror(message):
-    stdout.write("\033[91m")
-    stdout.write(f"ERROR: {message}\n")
-    stdout.write("\033[0m")
+    stdout.write(f"\033[91mERROR: {message}\033[0m\n")
     stdout.flush()
     displayprompt()
 
@@ -20,6 +14,7 @@ def displayresult(result):
     stdout.write(result)
     stdout.write("\n")
     stdout.flush()
+    displayprompt()
 
 def readexpression():
     expression = ""
