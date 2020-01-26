@@ -3,9 +3,9 @@ import os
 sys.path.append(os.path.abspath('src'))
 from src.lexer import Lexer
 from src.parser import parse
-from src.evaluator import evaluate
+from src.evaluator import evaluate, defaultenv
 from src.presenter import present
-from src.lisptypes import LispException, defaultenv
+from src.lisptypes import LispException
 
 def execute(expr, env = None):
     if env == None:

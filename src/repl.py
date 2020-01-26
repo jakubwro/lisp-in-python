@@ -2,8 +2,8 @@ from lexer import Lexer
 from parser import parse
 from prompter import displayprompt, readexpression, displayerror, welcome, bye, displayresult
 from presenter import present
-from lisptypes import LispException, defaultenv
-from evaluator import evaluate
+from lisptypes import LispException
+from evaluator import evaluate, defaultenv
 
 welcome()
 displayprompt()
