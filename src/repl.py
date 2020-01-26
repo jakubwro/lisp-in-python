@@ -7,10 +7,16 @@ from evaluator import evaluate
 
 welcome()
 displayprompt()
-env = defaultenv()
+environment = defaultenv()
 while True:
     try:
-        displayresult(present(evaluate(parse(Lexer(readexpression())), env)))
+        displayresult(
+            present(
+                evaluate(
+                    parse(
+                        Lexer(
+                            readexpression())),
+                    environment)))
     except LispException as e:
         displayerror(str(e))
     except (KeyboardInterrupt, EOFError):
