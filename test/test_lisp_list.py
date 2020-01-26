@@ -1,3 +1,4 @@
+import pytest
 import sys
 import os
 sys.path.append(os.path.abspath('test'))
@@ -15,3 +16,12 @@ def test_list_functions():
     assert run("(count nil)") == "0"
     assert run("(if (> (count (list 1 2 3)) 3) 89 78)") == "78"
     assert run("(if (>= (count (list 1 2 3)) 3) 89 78)") == "89"
+
+@pytest.mark.parametrize("expression,expected", [
+    ("(car '(1 2 3 4))", "1"),
+    ("(cdr '(1 2 3 4))", "(2 3 4)"),
+    ("(nth 3 '(1 2 3 4))", "3"),
+    ("(car (cdr '(1 2 3 4)))", "2")
+])
+def test_basic_car_cdr_cons(expression, expected):
+    assert expected == execute(expression)

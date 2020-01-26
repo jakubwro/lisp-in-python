@@ -39,5 +39,7 @@ def defaultenv():
     env.set('>=', lambda a,b: a >= b)
     env.set('<=', lambda a,b: a <= b)
 
+    env.set('not', lambda a: False if a is 0 else not a)
+
     env.set('prn', lambda v: print(v))
     return env

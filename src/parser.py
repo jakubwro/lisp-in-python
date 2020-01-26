@@ -2,7 +2,7 @@ from re import compile, match
 from lisptypes import Symbol
 
 integer_regex = compile(r"-?[0-9]+$")
-keywords = ['car', 'cdr', 'def' 'set!']
+string_regex = compile(r"^\".*\"$")
 
 def parseform(lexer):
     if lexer.peek() == None:
@@ -28,6 +28,8 @@ def parseatom(lexer):
     token = lexer.next()
     if match(integer_regex, token):
         return int(token)
+    if match(string_regex, token):
+        return token
     elif token == "nil":
         return None
     elif token == "true":

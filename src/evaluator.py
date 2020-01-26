@@ -30,15 +30,11 @@ def evaluate(ast, env):
     if not ast: # empty list
         return []
     ast = expandquotes(ast)
-
     form = ast[0]
-
     if callable(form):
         return form(ast[1:])
-
     if isspecial(form):
         return specialform(form, ast, env)
-        
     evaluated = evaluateast(ast, env)
     func, args = evaluated[0], evaluated[1:]
     if not callable(func):
