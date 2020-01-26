@@ -2,8 +2,7 @@ from lexer import Lexer
 from parser import parse
 from prompter import displayprompt, readexpression, displayerror, welcome, bye, displayresult
 from presenter import present
-from lisptypes import LispException
-from environment import defaultenv
+from lisptypes import LispException, defaultenv
 from evaluator import evaluate
 
 def read():

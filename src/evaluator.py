@@ -1,5 +1,4 @@
-from lisptypes import Symbol, LispException
-from environment import Environment
+from lisptypes import Symbol, LispException, Fn,  Environment
 
 def expandquotes(ast):
     expanded = []
@@ -27,7 +26,7 @@ def evaluateast(ast, env):
     return ast
 
 def evaluate(ast, env):
-    # while True:
+    while True:
         if not isinstance(ast, list):
             return evaluateast(ast, env)
         if not ast: # empty list
@@ -37,7 +36,7 @@ def evaluate(ast, env):
         form = ast[0]
         if form == 'def!':
             if len(ast) != 3:
-                raise(LispException("'def!' special form requires 2 arguments"))
+                raise(LispException("'def!' requires 2 arguments"))
             return env.set(ast[1], evaluate(ast[2], env))
             # if len(ast) != 2:
             #     raise(LispException("'quote' special form requires 1 argument"))
@@ -45,37 +44,47 @@ def evaluate(ast, env):
 
         if form == "let*":
             if len(ast) != 3:
-                raise(LispException("'let*' special form requires 2 arguments"))
+                raise(LispException("'let*' requires 2 arguments"))
             letenv = Environment(env)
             t = ast[1]
             for i in range(0, len(ast[1]), 2):
                 letenv.set(t[i], evaluate(t[i+1], letenv))
-            return evaluate(ast[2], letenv)
+            env = letenv
+            ast = ast[2]
+            continue
 
         if form == "if":
             if len(ast) < 3:
-                raise(LispException("'if' special form requires at least 2 arguments"))
+                raise(LispException("'if' requires at least 2 arguments"))
             cond = evaluate(ast[1], env)
             if cond is None or cond is False:
                 if len(ast) > 3:
-                    return evaluate(ast[3], env)
-                return None
-            return evaluate(ast[2], env)
+                    ast = ast[3]
+                else:
+                    ast = None
+            else:
+                ast = ast[2]
+            continue
 
         if form == "fn*":
             if len(ast) != 3:
-                raise(LispException("'fn*' special form requires 2 arguments"))
+                raise(LispException("'fn*' requires 2 arguments"))
             binds = ast[1]
-            return lambda *a: evaluate(ast[2], Environment(env, binds, a))
+            body = ast[2]
+            return Fn(body, binds, env, evaluate)
 
         if form == "do":
-            result = None
-            for expr in ast[1:]:
-                result = evaluate(expr, env)
-            return result
+            for expr in ast[1:-1]:
+                evaluate(expr, env)
+            ast = ast[-1]
+            continue
 
         evaluated = evaluateast(ast, env)
         func, args = evaluated[0], evaluated[1:]
+        if isinstance(func, Fn):
+            ast = func.body
+            env = func.newenv(args)
+            continue
         if not callable(func):
             raise(LispException(f"{func} is not callable. Are you missing a quotation?"))
         return func(*args)

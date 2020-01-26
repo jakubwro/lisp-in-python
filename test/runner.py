@@ -4,9 +4,8 @@ sys.path.append(os.path.abspath('src'))
 from src.lexer import Lexer
 from src.parser import parse
 from src.evaluator import evaluate
-from src.environment import defaultenv
 from src.presenter import present
-from src.lisptypes import LispException
+from src.lisptypes import LispException, defaultenv
 
 def execute(expr, env = None):
     if env == None:
