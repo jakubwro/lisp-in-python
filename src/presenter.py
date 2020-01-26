@@ -1,4 +1,5 @@
 from sys import stdin, stdout, stderr
+from lisptypes import Fn
 
 def presentlist(content, buffer):
     buffer.append("(")
@@ -17,6 +18,8 @@ def presentresult(content, buffer):
         buffer.append(str(content).lower())
     elif (isinstance(content, list)):
         presentlist(content, buffer)
+    elif isinstance(content, Fn) or callable(content):
+        buffer.append("<function>")
     else:
         buffer.append(str(content))
 
